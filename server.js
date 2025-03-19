@@ -2,6 +2,7 @@ const { name } = require('ejs');
 const express = require('express');
 const app = express();
 
+app.set('view engine', 'ejs');
 
 
 const RESTAURANT = {
@@ -59,6 +60,14 @@ app.get(`/menu`, (request, response) => {
         menu: RESTAURANT.menu
     });
 });
+
+
+app.get(`/menu/:category`, (request, response) => {
+    const category = request.params.category;
+    const filteredItems = RESTAURANT.menu.filter(item => item.category === category);
+
+    response.render('category', { menu: filteredItems });
+})
 
 
 app.get(`/home`, (request, response) => {
